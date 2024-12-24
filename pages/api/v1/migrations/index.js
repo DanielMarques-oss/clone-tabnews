@@ -26,7 +26,6 @@ export default async function migrations(request, response) {
     };
 
     if (request.method === "GET") {
-      console.log("Entrou no método GET");
       const pendingMigrations = await migrationRunner(defaultMigrationOptions);
 
       response.status(200).json(pendingMigrations);
