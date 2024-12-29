@@ -1,6 +1,6 @@
 import database from "infra/database.js";
 import migrationRunner from "node-pg-migrate";
-import { join } from "node:path";
+import { resolve } from "node:path";
 
 export default async function migrations(request, response) {
   const allowedMethods = ["GET", "POST"];
@@ -19,14 +19,13 @@ export default async function migrations(request, response) {
     const defaultMigrationOptions = {
       dbClient: dbClient,
       dryRun: true,
-      dir: join("infra", "migrations"),
+      dir: resolve("infra", "migrations"),
       verbose: true,
       migrationsTable: "pgmigrations",
       direction: "up",
     };
 
     if (request.method === "GET") {
-      console.log("Entrou no método GET");
       const pendingMigrations = await migrationRunner(defaultMigrationOptions);
 
       response.status(200).json(pendingMigrations);
